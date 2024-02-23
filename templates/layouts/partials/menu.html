@@ -8,12 +8,15 @@
         <ul class="navbar-nav">
           {% if user.is_authenticated %}
             
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'siqnout' %}">Logout</a>
-                </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Amigos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'siqnout' %}">Logout</a>
+            </li>
             
           {% else %}
             <li class="nav-item">

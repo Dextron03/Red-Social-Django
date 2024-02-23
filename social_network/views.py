@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
-from .forms import MySocialUserCreationForm
-from .models import MySocialUser
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import MySocialUserCreationForm, PostsForm, CommentForm
+from .models import MySocialUser, Posts
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -17,13 +17,21 @@ load_dotenv("settings.py")
 User = get_user_model()
 
 def signin(request):
+    
     if request.method == "GET":
         
         return render(request, "signup&login/signin.html", {"form":AuthenticationForm})
 
     if request.method == "POST":
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-                
+        
+        
+        query_user_activate = MySocialUser.objects.filter(username = request.POST['username']).first()
+        
+        if query_user_activate is not None and query_user_activate.is_active is not True:
+            error(request, "El usuario no está activado.")
+            return render(request, "signup&login/signin.html", {"form": AuthenticationForm})
+          
         if user is None:
             error(request, message="El usuario o la contraseña es incorrecta")
             return render(request, "signup&login/signin.html", {"form":AuthenticationForm})
@@ -54,7 +62,7 @@ def signup(request):
         return render(request, 'signup&login/signup.html', {"form":form})
 
     if request.method == "POST":
-        form = form(request.POST)
+        form = form(request.POST, request.FILES)
         if form.is_valid():
             try:
                 user_activate = form.save(commit=False)
@@ -84,19 +92,48 @@ def signup(request):
                 """
             )
 
-            success(request, message="El usuario a sido creado")
+            success(request, message="El usuario a sido creado, revise su correo electronico para activar su usuario.")
             print(request.POST)
             # return redirect("activation")
-            return render(request, 'signup&login/signup.html', {"form":form})
+            # return render(request, 'signup&login/signup.html', {"form":form})
+            return redirect('signin')
         else:
             error(request, message="Revisa los campos.")
         return render(request, 'signup&login/signup.html', {"form":form})
 
 @login_required
-def home(request):
+def home(request, post_id=None):
+    user_login = request.user
+    query_posts = Posts.objects.all()
     
-    return render(request, "index.html", {})
-
+    if post_id is not None:
+        post = get_object_or_404(Posts, pk=post_id)  # Obtiene la instancia de la publicación basada en el ID proporcionado
+    else:
+        post = None
+    
+    if request.method == "POST":
+        form_comment = CommentForm(request.POST)
+        if form_comment.is_valid():
+            comment = form_comment.save(commit=False)
+            comment.user = user_login
+            if post is not None:
+                comment.posts = post  
+            comment.save()
+            return redirect("home")
+        
+        form_post = PostsForm(request.POST, request.FILES)
+        if form_post.is_valid():
+            post = form_post.save(commit=False)
+            post.user = user_login
+            post.save()
+            success(request, 'Has agregado una nueva publicación')
+            return redirect('home')  # Redirigir al usuario a la página de inicio después de agregar una publicación
+        else:
+            error(request, 'Error al agregar la publicación. Por favor, revise los campos.')
+    else:
+        form_post = PostsForm() 
+        form_comment = CommentForm()
+    return render(request, "index.html", {"all_post": query_posts, 'form_post': form_post, "form_comment":form_comment})
 def deleteuser(request):
     MySocialUser.objects.all().delete()
     return redirect("signup")

@@ -33,7 +33,7 @@ class MySocialUser(AbstractBaseUser):
     name = models.CharField(max_length=50)
     surnames = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
-    profile_picture = models.ImageField(upload_to="media/profile/", default='profile_picture.jpeg')
+    profile_picture = models.ImageField(upload_to="profiles/", default='profile_picture.jpeg', blank=True, null=True)
     activation_token = models.CharField(max_length=100, blank=True, null=True)
     objects = MySocialUserManager()
     

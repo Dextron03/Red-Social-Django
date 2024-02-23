@@ -7,39 +7,59 @@
         <div class="row mt-3">
             <div class="col-md-9">
                 <!-- Formulario para crear una nueva publicación -->
-                <form action="{% url 'crear_publicacion' %}" method="post" enctype="multipart/form-data">
+                <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="contenido">Crear nueva publicación:</label>
-                        <textarea class="form-control" id="contenido" name="contenido" rows="3" required></textarea>
+                        <label for="id_content_posts">Crear una nueva publicación</label>
+                        <textarea class="form-control" id="id_content_posts" name="content_posts" rows="3" placeholder="Escribe algo..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="imagen">Seleccionar imagen:</label>
-                        <input type="file" class="form-control-file" id="imagen" name="imagen">
+                        <label for="id_img">Adjuntar imagen (opcional)</label>
+                        <input type="file" class="form-control-file" id="id_img" name="img">
                     </div>
                     <button type="submit" class="btn btn-primary">Publicar</button>
                 </form>
                 
-                <!-- Listado de publicaciones -->
                 <div class="mt-3">
-                    {% for publicacion in publicaciones %}
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <img src="{{ publicacion.usuario.profile_picture.url }}" class="rounded-circle" width="30" height="30">
-                            <h5 class="card-title">{{ publicacion.usuario.username }}</h5>
-                            <p class="card-text">{{ publicacion.contenido }}</p>
-                            {% if publicacion.imagen %}
-                            <img src="{{ publicacion.imagen.url }}" class="img-fluid" alt="Publicación Imagen">
-                            {% endif %}
+                    {% for post in all_post %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <img src="{{ post.user.profile_picture.url }}" class="rounded-circle" width="30" height="30">
+                                <h5 class="card-title">{{ post.user.username }}</h5>
+                                <p class="card-text">{{ post.content_posts }}</p>
+                                {% if post.img %}
+                                    <img src="{{ post.img.url }}" class="img-fluid" alt="Publicación Imagen">
+                                {% endif %}
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Publicado el {{ post.date }}</small>
+                            </div>
+                            <!-- Comentarios -->
+                            <div class="card-footer">
+                                <h6>Comentarios:</h6>
+                                {% for comment in post.comments.all %}
+                                    <div class="media mt-3">
+                                        <img src="{{ comment.user.profile_picture.url }}" class="mr-3 rounded-circle" width="30" height="30">
+                                        <div class="media-body">
+                                            <h6 class="mt-0">{{ comment.user.username }}</h6>
+                                            <p>{{ comment.content }}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!-- Formulario para agregar comentario -->
+                            <form action="{% url 'home_with_post' post.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="id_content">Agregar comentario</label>
+                                    <textarea class="form-control" id="id_content" name="content" rows="1" placeholder="Escribe un comentario..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                            </form>
                         </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Publicado el {{ publicacion.fecha }}</small>
-                        </div>
-                    </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 {% endblock main %}
-    
