@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>NexWork | {% block title %}{% endblock title %}</title>
+    {% block head %}
+    
+    {% endblock head %}
+</head>
+<body>
+    {% block header %}
+        {% include './partials/menu.html' %}
+    {% endblock header %}
+
+    
+    {% block main %}
+    
+    {% endblock main %}
+
+    {% block footer %}
+        {% include './partials/footer.html' %}
+    {% endblock footer %}
+
+
+    {% block scripts %}
+        
+    {% endblock scripts %}
+    <script src="{% static './lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
