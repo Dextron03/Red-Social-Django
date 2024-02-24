@@ -1,32 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-top">
+          Social Network
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          {% if user.is_authenticated %}
-            
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Amigos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'siqnout' %}">Logout</a>
-            </li>
-            
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'signin' %}">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'signup' %}">Signup</a>
-            </li>
-          {% endif %}
-        </ul>
+          <ul class="navbar-nav ms-auto">
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Amigos</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+              </li>
+              {% endif %}
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                  <a class="nav-link" href="#">
+                      <img src="{{ user.profile_picture.url }}" alt="Profile Picture" width="30" height="30"
+                          class="rounded-circle">
+                  </a>
+              </li>
+              {% endif %}
+          </ul>
       </div>
-    </div>
-  </nav>
+  </div>
+</nav>

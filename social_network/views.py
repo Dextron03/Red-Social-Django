@@ -133,7 +133,11 @@ def home(request, post_id=None):
     else:
         form_post = PostsForm() 
         form_comment = CommentForm()
-    return render(request, "index.html", {"all_post": query_posts, 'form_post': form_post, "form_comment":form_comment})
+    return render(request, "index.html", {"all_post": query_posts,
+                                          'form_post': form_post,
+                                          "form_comment":form_comment,
+                                          'users':MySocialUser.objects.exclude(username=user_login)
+                                          })
 def deleteuser(request):
     MySocialUser.objects.all().delete()
     return redirect("signup")
