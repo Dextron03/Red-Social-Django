@@ -24,7 +24,6 @@ class MySocialUserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
     
 class MySocialUser(AbstractBaseUser):
-    email =  models.EmailField(max_length=254, verbose_name='correo electronico', unique=True)
     username = models.CharField(max_length=70, unique=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -33,7 +32,8 @@ class MySocialUser(AbstractBaseUser):
     name = models.CharField(max_length=50)
     surnames = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
-    profile_picture = models.ImageField(upload_to="profiles/", default='profile_picture.jpeg', blank=True, null=True)
+    email =  models.EmailField(max_length=254, verbose_name='correo electronico', unique=True)
+    profileimg = models.ImageField(upload_to='profiles/',default='profile_picture.jpeg')
     activation_token = models.CharField(max_length=100, blank=True, null=True)
     objects = MySocialUserManager()
     

@@ -12,30 +12,30 @@
       <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
               {% if user.is_authenticated %}
-              <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Amigos</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
-              {% else %}
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">Login</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'signup' %}">Signup</a>
-              </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Amigos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signin' %}">Signin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                </li>
               {% endif %}
               {% if user.is_authenticated %}
-              <li class="nav-item">
-                  <a class="nav-link" href="#">
-                      <img src="{{ user.profile_picture.url }}" alt="Profile Picture" width="30" height="30"
-                          class="rounded-circle">
-                  </a>
-              </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img src="{{ user.profileimg.url }}" alt="Profile Picture" width="30" height="30"
+                            class="rounded-circle">
+                    </a>
+                </li>
               {% endif %}
           </ul>
       </div>

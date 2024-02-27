@@ -1,0 +1,36 @@
+.post-container {
+    background-color: #fff; /* Fondo blanco para el contenedor de la publicación */
+    border: 1px solid #ddd; /* Borde gris claro alrededor del contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espacio entre publicaciones */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+}
+.post-container .card-body {
+    padding: 15px; /* Espaciado interno del cuerpo de la publicación */
+}
+.post-container .card-title {
+    font-size: 16px; /* Tamaño de fuente para el nombre de usuario */
+    margin-bottom: 5px; /* Espacio inferior entre el nombre de usuario y el contenido */
+}
+.post-container .card-text {
+    font-size: 14px; /* Tamaño de fuente para el contenido de la publicación */
+    margin-bottom: 10px; /* Espacio inferior entre el contenido y otros elementos */
+}
+.post-container .card-footer {
+    background-color: #fff; /* Fondo blanco para el pie de la publicación */
+    border-top: 1px solid #ddd; /* Borde superior gris claro */
+    padding: 10px 15px; /* Espaciado interno del pie de la publicación */
+}
+.post-container .card-footer small {
+    font-size: 12px; /* Tamaño de fuente para la información de tiempo */
+    color: #999; /* Color gris para la información de tiempo */
+}
+.post-container .media {
+    margin-top: 10px; /* Espacio superior entre comentarios */
+}
+.post-container .media img {
+    margin-right: 10px; /* Espacio derecho entre la imagen del comentario y el contenido */
+}
+.post-container .media-body {
+    font-size: 14px; /* Tamaño de fuente para el contenido del comentario */
+}

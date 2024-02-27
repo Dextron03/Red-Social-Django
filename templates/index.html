@@ -3,79 +3,78 @@
 {% block title %} Home {% endblock title %}
 
 {% block main %}
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col-md-9">
-                <!-- Formulario para crear una nueva publicación  -->
-                <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="id_content_posts">Crear una nueva publicación</label>
-                        <textarea class="form-control" id="id_content_posts" name="content_posts" rows="3" placeholder="Escribe algo..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_img">Adjuntar imagen (opcional)</label>
-                        <input type="file" class="form-control-file" id="id_img" name="img">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Publicar</button>
-                </form>
-                
-                <div class="mt-3">
-                    {% for post in all_post %}
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <img src="{{ post.user.profile_picture.url }}" class="rounded-circle" width="30" height="30">
-                                <h5 class="card-title">{{ post.user.username }}</h5>
-                                <p class="card-text">{{ post.content_posts }}</p>
-                                {% if post.img %}
-                                    <img src="{{ post.img.url }}" class="img-fluid" alt="Publicación Imagen">
-                                {% endif %}
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Publicado el {{ post.date }}</small>
-                            </div>
-                            <!-- Comentarios -->
-                            <div class="card-footer">
-                                <h6>Comentarios:</h6>
-                                {% for comment in post.comments.all %}
-                                    <div class="media mt-3">
-                                        <img src="{{ comment.user.profile_picture.url }}" class="mr-3 rounded-circle" width="30" height="30">
-                                        <div class="media-body">
-                                            <h6 class="mt-0">{{ comment.user.username }}</h6>
-                                            <p>{{ comment.content }}</p>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <!-- Formulario para agregar comentario -->
-                            <form action="{% url 'home_with_post' post.id %}" method="post">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="id_content">Agregar comentario</label>
-                                    <textarea class="form-control" id="id_content" name="content" rows="1" placeholder="Escribe un comentario..."></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
-                            </form>
-                        </div>
-                    {% endfor %}
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-9">
+            <!-- Formulario para crear una nueva publicación  -->
+            <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_content_posts">Crear una nueva publicación</label>
+                    <textarea class="form-control" id="id_content_posts" name="content_posts" rows="3" placeholder="Escribe algo..."></textarea>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <h3>Sugerencias:</h3>
-                <ul class="list-group">
-                    {% if users|length == 0 %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            No hay amigos para sugerir.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="form-group">
+                    <label for="id_img">Adjuntar imagen (opcional)</label>
+                    <input type="file" class="form-control-file" id="id_img" name="img">
+                </div>
+                <button type="submit" class="btn btn-primary">Publicar</button>
+            </form>
+            
+            <div class="mt-3">
+                {% for post in all_post %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <img src="{{ post.user.profileimg.url }}" class="rounded-circle" width="40" height="40">
+                            <h5 class="card-title">{{ post.user.username }}</h5>
+                            <p class="card-text">{{ post.content_posts }}</p>
+                            {% if post.img %}
+                            <img src="{{ post.img.url }}" class="img-fluid" alt="Publicación Imagen">
+                            {% endif %}
                         </div>
-                    {% else %}
-                        {% for user in users %}
-                            <li class="list-group-item">{{ user.username }}</li>
-                        {% endfor %}
-                    {% endif %}
-
-                </ul>
+                        <div class="card-footer">
+                            <small class="text-muted">Publicado el {{ post.date }}</small>
+                        </div>
+                        <!-- Comentarios -->
+                        <div class="card-footer">
+                            <h6>Comentarios:</h6>
+                            {% for comment in post.comments.all %}
+                            <div class="media mt-3">
+                                <img src="{{ comment.user.profileimg.url }}" class="mr-3 rounded-circle" width="30" height="30">
+                                <div class="media-body">
+                                    <h6 class="mt-0">{{ comment.user.username }}</h6>
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- Formulario para agregar comentario -->
+                        <form action="{% url 'home_with_post' post.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_content">Agregar comentario</label>
+                                <textarea class="form-control" id="id_content" name="content" rows="1" placeholder="Escribe un comentario..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                        </form>
+                    </div>
+                {% endfor %}
             </div>
         </div>
+        <div class="col-md-3">
+            <h3>Sugerencias:</h3>
+            <ul class="list-group">
+                {% if users|length == 0 %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    No hay amigos para sugerir.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% else %}
+                    {% for user in users %}
+                        <li class="list-group-item">{{ user.username }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
     </div>
+</div>
 {% endblock main %}
