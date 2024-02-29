@@ -1,0 +1,16 @@
+{% extends "../layouts/base.html" %}
+
+
+{% block title %} Edit Post {% endblock title %}
+
+
+{% block main %}
+    
+    <form action="{% url 'edit_post' post_id=post_id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Enviar">
+    </form>
+
+{% endblock main %}
+    

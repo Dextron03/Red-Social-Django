@@ -51,7 +51,7 @@ class MySocialUser(AbstractBaseUser):
 
 class Posts(models.Model):
     content_posts = models.TextField(max_length=400, verbose_name='Contenido')
-    img = models.ImageField(upload_to='img_posts/', blank=True)
+    img = models.ImageField(upload_to='img_posts/', blank=True, null=True)
     hour = models.DateTimeField(auto_now_add=True)  
     date = models.DateField(auto_now_add=True)
     user = models.ForeignKey(to=MySocialUser, related_name='posts', on_delete=models.CASCADE) 
@@ -70,5 +70,5 @@ class Friends(models.Model):
         unique_together = ['user', 'friend'] 
 
     def __str__(self) -> str:
-        return f'{self.user.name} and {self.friend.name}' 
+        return f'{self.friend.username}' 
 

@@ -38,14 +38,13 @@ class MySocialUserCreationForm(UserCreationForm):
     
 class PostsForm(forms.ModelForm):
     content_posts = forms.CharField(max_length=400, label="Crear nueva publicación",required=True, widget= forms.Textarea(attrs={"class":"form-control"}))
-    img = forms.ImageField(label="Seleccionar imagen", widget= forms.FileInput(attrs={"class":"form-control-file"}))
+    img = forms.ImageField(label="Seleccionar imagen", required=False,widget= forms.FileInput(attrs={"class":"form-control-file", }))
     class Meta:
         model = Posts
         fields = ['content_posts', 'img']
     
 class CommentForm(forms.ModelForm):
     content = forms.CharField(max_length=200, label="Comentario", required=True, widget=forms.TextInput(attrs={'class':'form-control', "placeholder":"Agregar comentario"}))
-    
     class Meta:
         model = Comment
         fields = ['content']

@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Lista de Amigos{% endblock title %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>¡Explora las publicaciones de tus amigos!</h2>
+            <p>Disfruta de las últimas publicaciones de tus amigos y mantente al día con lo que están compartiendo.</p>
+            <p>No olvides dejar un comentario en las publicaciones que te gusten para mostrar tu apoyo.</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-9">
+            <h2>Publicaciones de Amigos</h2>
+            {% if messages %}
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-warning alert-dismissible fade show" role="alert" {% endif %}>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% for friend_post in friend_posts %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <img src="{{ friend_post.user.profileimg.url }}" class="rounded-circle" width="40" height="40" alt="User Profile Image">
+                        <span>{{ friend_post.user.username }}</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ friend_post.content_posts }}</p>
+                        {% if friend_post.img %}
+                            <img src="{{ friend_post.img.url }}" class="img-fluid mb-2" style="height: 400px; width: 800px;" alt="Publicación Imagen">
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Publicado el {{ friend_post.date }}</small>
+                    </div>
+                    <!-- Comentarios -->
+                    <div class="card-footer">
+                        <h6>Comentarios:</h6>
+                        {% for comment in friend_post.comments.all %}
+                            <div class="media">
+                                <img src="{{ comment.user.profileimg.url }}" class="mr-3 rounded-circle" width="30" height="30" alt="User Profile Image">
+                                <div class="media-body">
+                                    <h6 class="mt-0">{{ comment.user.username }}</h6>
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <!-- Formulario para agregar comentario -->
+                        <form action="{% url 'home_with_post' friend_post.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group mt-2">
+                                <textarea class="form-control" id="comment_content" name="content" rows="1" placeholder="Escribe un comentario..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-3">
+            <h2>Listado de Amigos</h2>
+            <ul class="list-group">
+                {% for friend in friends %}
+                    <li class="list-group-item">
+                        {{ friend }} 
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{friend.id}}">
+                            <i class="bi bi-heartbreak-fill"></i>
+                        </button>
+
+                        <div class="modal fade" id="exampleModal{{friend.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Romper Amistad</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  ¿Seguro que quieres romper amistad con <strong>{{friend}}</strong>?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                  <a href="{% url 'delete_friends' id=friend.id %}" class="btn btn-danger">Eliminar</a>
+                                  {% comment %} <a type="submit" class="btn btn-danger">Eliminar</a> {% endcomment %}
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock main %}
