@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activación de Cuenta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .activation-link {
+            background-color: #f0f0f0;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Activación de Cuenta</h2>
+        </div>
+        <p>Hola {{username}},</p>
+        <p>Gracias por registrarte en nuestro servicio. Para activar tu cuenta, por favor utiliza el siguiente enlace:</p>
+        <p class="activation-link">{{activation_link}}</p>
+        <p>Una vez que hayas ingresado el código de activación, tu cuenta estará lista para usar.</p>
+        <p>Si no realizaste esta solicitud, por favor ignora este mensaje.</p>
+        <div class="footer">
+            <p>¡Gracias!</p>
+            <p>El equipo de Social Network</p>
+        </div>
+    </div>
+</body>
+</html>
