@@ -1,36 +1,36 @@
-.post-container {
-    background-color: #fff; /* Fondo blanco para el contenedor de la publicación */
-    border: 1px solid #ddd; /* Borde gris claro alrededor del contenedor */
-    border-radius: 8px; /* Bordes redondeados */
-    margin-bottom: 20px; /* Espacio entre publicaciones */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra suave */
+/* style.css */
+
+/* Estilos para los campos de formulario */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
 }
-.post-container .card-body {
-    padding: 15px; /* Espaciado interno del cuerpo de la publicación */
+
+/* Estilos para el botón de inicio de sesión */
+.btn-login {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    cursor: pointer;
 }
-.post-container .card-title {
-    font-size: 16px; /* Tamaño de fuente para el nombre de usuario */
-    margin-bottom: 5px; /* Espacio inferior entre el nombre de usuario y el contenido */
+
+.btn-login:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
-.post-container .card-text {
-    font-size: 14px; /* Tamaño de fuente para el contenido de la publicación */
-    margin-bottom: 10px; /* Espacio inferior entre el contenido y otros elementos */
+
+/* Estilos para el botón de "Olvidaste tu contraseña" */
+.btn-forgot-password {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
 }
-.post-container .card-footer {
-    background-color: #fff; /* Fondo blanco para el pie de la publicación */
-    border-top: 1px solid #ddd; /* Borde superior gris claro */
-    padding: 10px 15px; /* Espaciado interno del pie de la publicación */
-}
-.post-container .card-footer small {
-    font-size: 12px; /* Tamaño de fuente para la información de tiempo */
-    color: #999; /* Color gris para la información de tiempo */
-}
-.post-container .media {
-    margin-top: 10px; /* Espacio superior entre comentarios */
-}
-.post-container .media img {
-    margin-right: 10px; /* Espacio derecho entre la imagen del comentario y el contenido */
-}
-.post-container .media-body {
-    font-size: 14px; /* Tamaño de fuente para el contenido del comentario */
-}
+
+

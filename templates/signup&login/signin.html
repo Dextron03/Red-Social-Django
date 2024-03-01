@@ -2,57 +2,73 @@
 
 {% block title %}Login{% endblock title %}
 
+{% block head %}   
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock head %}
+
 {% block main %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h3>Iniciar Sesión</h3>
-                    </div>
-                    <div class="card-body">
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div {% if message.tags %} class="alert alert-warning alert-dismissible fade show" role="alert" {% endif %}>
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        <form action="{% url 'signin' %}" method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-                                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">¿Olvidaste tu contraseña?</button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h2>Bienvenido a Social NetWork</h2>
+            <p>Por favor inicia sesión para continuar</p>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Iniciar Sesión</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div {% if message.tags %} class="alert alert-warning alert-dismissible fade show" role="alert" {% endif %}>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
-                        </form>
-                        
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Restablecer Contraseña</h1>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  <form action="{% url 'password_reset' %}" method="GET">
-                                      <div class="mb-3">
-                                          <label for="passwordReset" id="passwordReset" class="col-form-label">Username:</label>
-                                          <input type="text" class="form-control" id="passwordReset" name="passwordReset">
-                                      </div>
-                                      <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                          <button type="submit" class="btn btn-primary">Enviar</button>
-                                      </div>
-                                  </form>
-                                </div>
-                              </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form action="{% url 'signin' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nombre de usuario:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-login">Iniciar Sesión</button>
+                            <button type="button" class="btn btn-link btn-forgot-password" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">¿Olvidaste tu contraseña?</button>
+                        </div>
+                    </form>
+                    
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Restablecer Contraseña</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="{% url 'password_reset' %}" method="GET">
+                                  <div class="mb-3">
+                                      <label for="passwordReset" id="passwordReset" class="col-form-label">Nombre de usuario:</label>
+                                      <input type="text" class="form-control" id="passwordReset" name="passwordReset">
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                      <button type="submit" class="btn btn-primary">Enviar</button>
+                                  </div>
+                              </form>
                             </div>
                           </div>
-                    </div>
+                        </div>
+                      </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock main %}

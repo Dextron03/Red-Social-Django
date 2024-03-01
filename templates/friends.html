@@ -22,44 +22,53 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            {% for friend_post in friend_posts %}
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <img src="{{ friend_post.user.profileimg.url }}" class="rounded-circle" width="40" height="40" alt="User Profile Image">
-                        <span>{{ friend_post.user.username }}</span>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ friend_post.content_posts }}</p>
-                        {% if friend_post.img %}
-                            <img src="{{ friend_post.img.url }}" class="img-fluid mb-2" style="height: 400px; width: 800px;" alt="Publicación Imagen">
-                        {% endif %}
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Publicado el {{ friend_post.date }}</small>
-                    </div>
-                    <!-- Comentarios -->
-                    <div class="card-footer">
-                        <h6>Comentarios:</h6>
-                        {% for comment in friend_post.comments.all %}
-                            <div class="media">
-                                <img src="{{ comment.user.profileimg.url }}" class="mr-3 rounded-circle" width="30" height="30" alt="User Profile Image">
-                                <div class="media-body">
-                                    <h6 class="mt-0">{{ comment.user.username }}</h6>
-                                    <p>{{ comment.content }}</p>
+            {% if friend_posts %}
+                {% for friend_post in friend_posts %}
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <img src="{{ friend_post.user.profileimg.url }}" class="rounded-circle" width="40" height="40" alt="User Profile Image">
+                            <span>{{ friend_post.user.username }}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ friend_post.content_posts }}</p>
+                            {% if friend_post.img %}
+                                <img src="{{ friend_post.img.url }}" class="img-fluid mb-2" style="height: 400px; width: 800px;" alt="Publicación Imagen">
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Publicado el {{ friend_post.date }}</small>
+                        </div>
+                        <!-- Comentarios -->
+                        <div class="card-footer">
+                            <h6>Comentarios:</h6>
+                            {% for comment in friend_post.comments.all %}
+                                <div class="media">
+                                    <img src="{{ comment.user.profileimg.url }}" class="mr-3 rounded-circle" width="30" height="30" alt="User Profile Image">
+                                    <div class="media-body">
+                                        <h6 class="mt-0">{{ comment.user.username }}</h6>
+                                        <p>{{ comment.content }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                        <!-- Formulario para agregar comentario -->
-                        <form action="{% url 'home_with_post' friend_post.id %}" method="post">
-                            {% csrf_token %}
-                            <div class="form-group mt-2">
-                                <textarea class="form-control" id="comment_content" name="content" rows="1" placeholder="Escribe un comentario..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
-                        </form>
+                            {% endfor %}
+                            <!-- Formulario para agregar comentario -->
+                            <form action="{% url 'home_with_post' friend_post.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group mt-2">
+                                    <textarea class="form-control" id="comment_content" name="content" rows="1" placeholder="Escribe un comentario..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                            </form>
+                        </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    Haz amigos, puto antisocial.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            {% endfor %}
+            {% endif %}
+
+
         </div>
         <div class="col-md-3">
             <h2>Listado de Amigos</h2>

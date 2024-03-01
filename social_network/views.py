@@ -11,6 +11,7 @@ from django.contrib.auth.tokens import default_token_generator
 from dotenv import load_dotenv
 from services.email_service import EmailService
 from services.generate_password import GeneratePassword
+from django.template.loader import render_to_string
 
 load_dotenv("settings.py")
 
@@ -19,7 +20,7 @@ User = get_user_model()
 def signin(request):    
 
     if request.method == "GET":
-        
+        logout(request)
         return render(request, "signup&login/signin.html", {"form":AuthenticationForm})
 
     if request.method == "POST":
@@ -71,10 +72,11 @@ def activate_account(request, activation_token):
     messages.success(request, message="Su cuenta a sido activada.")
     return redirect('signin')
 
+
 def signup(request):
     form = MySocialUserCreationForm()
     if request.method == "GET":
-        
+        logout(request)
         return render(request, 'signup&login/signup.html', {"form": form})
 
     if request.method == "POST":
@@ -86,22 +88,18 @@ def signup(request):
                 user_activate.activation_token = default_token_generator.make_token(user_activate)
                 activation_link = f"http://127.0.0.1:8000/activate/{user_activate.activation_token}/"
                 email_activation = EmailService()
+                
+                html_content = render_to_string('emails/activate account.html', {
+                    'username': user_activate.username,
+                    'activation_link':activation_link,
+                })
+                
                 email_activation.send_email(
                     to=user_activate.email,
                     subject="¡Activar tu cuenta de Social NetWork!",
-                    html=f"""
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-                            <h2>Activación de Cuenta</h2>
-                            <p>Hola {user_activate.username},</p>
-                            <p>Gracias por registrarte en nuestro servicio. Para activar tu cuenta, por favor utiliza el siguiente enlace:</p>
-                            <p style="background-color: #f0f0f0; padding: 10px; font-weight: bold; font-size: 18px;">{activation_link}</p>
-                            <p>Una vez que hayas ingresado el código de activación, tu cuenta estará lista para usar.</p>
-                            <p>Si no realizaste esta solicitud, por favor ignora este mensaje.</p>
-                            <p>¡Gracias!</p>
-                            <p>El equipo de Social Network</p>
-                        </div>
-                    """
+                    html=html_content
                 )
+                
                 user_activate.save()
             except User.DoesNotExist:
                 error_message = 'El usuario ya existe.'
@@ -167,13 +165,12 @@ def friends(request):
     friend_ids = user_login.friends.values_list('friend_id', flat=True)
     friend_posts = Posts.objects.filter(user_id__in=friend_ids).order_by('-date')
     
-    friends_user = user_login.friends.values_list('friend_id', flat=True)
-    friends_r = Friends.objects.filter(user_id__in=friends_user)
+    friends_r = Friends.objects.filter(user_id=user_login)
     
     return render(request, 'friends.html', {
         'friend_posts': friend_posts,
-        'friends':friends_r
-        })
+        'friends': friends_r
+    })
 
 @login_required
 def delete_friendship(request, id):
@@ -222,25 +219,17 @@ def password_reset(request):
 
             user.set_password(new_password)  # Establecer la nueva contraseña
             user.save()
-
+            
+            html_content = render_to_string('emails/reset_password_email.html', {
+                'new_password': new_password,
+                'logo_url': request.build_absolute_uri('../static/img/logo.png')  # URL absoluta al logo
+            })
+            
             email_service.send_email(
                 to=user.email,
                 subject="Contraseña Restablecida",
-                html=f"""
-                    <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                        <div style="text-align: center; margin-bottom: 20px;">
-                                <img src="../static/img/logo.png" alt="Logo de la Compañía" style="max-width: 150px; height: auto;">
-                        </div>
-                        <div style="padding: 20px;">
-                            <p>¡Hola!</p>
-                            <p>Recibiste este correo electrónico porque haz cambiado tu contraseña, la cual te hemos asignado:</p>
-                            <p>{new_password}</p>
-                            <p>Si no solicitaste restablecer tu contraseña, puedes ignorar este mensaje.</p>
-                            <p>Gracias,<br>El equipo de Social NetWork</p>
-                        </div>
-                    </div>
-                """
-            )
+                html=html_content)
+            
             messages.success(request, message='Su contraseña ha sido cambiada. Por favor, revise su correo electrónico.')
             return redirect('signin')
         else:
@@ -249,9 +238,7 @@ def password_reset(request):
     else:
         messages.error(request, message='El parámetro "passwordReset" no se proporcionó en la solicitud.')
         return redirect('signin')
-        
-def deleteuser(request):
-    # MySocialUser.objects.all().delete()
-    MySocialUser.objects.get(id=18).delete()
-    return redirect("signup")
     
+def delete_user(request):
+    MySocialUser.objects.all().delete()
+    return redirect('home')
