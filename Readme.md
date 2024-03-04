@@ -13,7 +13,7 @@
 - [Variables de Entorno](#variables-de-entorno)
 
 ## Descripción y contexto
-¡Bienvenidos al proyecto Social NetWork con Django! En este proyecto, hemos desarrollado una plataforma de redes sociales robusta y dinámica utilizando el potente framework Django. Nuestra meta principal ha sido crear un espacio interactivo donde los usuarios puedan compartir sus pensamientos, interactuar con sus amigos y mantenerse conectados de manera efectiva.
+¡Bienvenidos al proyecto Social NetWork con Django! En este proyecto, he desarrollado una plataforma de redes sociales robusta y dinámica utilizando el potente framework Django. Nuestra meta principal ha sido crear un espacio interactivo donde los usuarios puedan compartir sus pensamientos, interactuar con sus amigos y mantenerse conectados de manera efectiva.
 
 ## Guía de usuario
 Explica los pasos básicos sobre cómo usar la herramienta digital. Es una buena sección para mostrar capturas de pantalla o gifs que ayuden a entender la herramienta digital.
