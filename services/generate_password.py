@@ -5,7 +5,7 @@ class GeneratePassword():
     def __init__(self) -> str:
         pass
     
-    def insert_symbols(self,list_to_fill_out:list):
+    def insert_symbols(self, list_to_fill_out:list):
         [list_to_fill_out.append(i) for i in string.punctuation]
         [list_to_fill_out.append(i) for i in string.ascii_letters]
         return list_to_fill_out       
