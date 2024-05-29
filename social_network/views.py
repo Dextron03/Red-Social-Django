@@ -63,7 +63,7 @@ def add_friend(request):
         return redirect('home')
 
 
-def activate_account(request, activation_token):
+def activate_account(request, activation_token:str):
     try:
         users = User.objects.get(activation_token = activation_token)
     except User.DoesNotExist:
@@ -124,7 +124,7 @@ def get_suggestions_from_friends(user_lg):
     return suggestions
 
 @login_required
-def home(request, post_id=None):
+def home(request, post_id:int=None):
     user_login = request.user
     query_posts = Posts.objects.all()
     
@@ -176,7 +176,7 @@ def friends(request):
     })
 
 @login_required
-def delete_friendship(request, id):
+def delete_friendship(request, id:int):
     try:
         friendship = Friends.objects.get(id=id)
         friendship.delete()
@@ -187,14 +187,14 @@ def delete_friendship(request, id):
         return redirect('friends')
  
 @login_required   
-def delete_post(request, id):
+def delete_post(request, id:int):
     post_select = Posts.objects.get(id=id)
     post_select.delete()    
     messages.success(request, message='Haz borrado la publicacion.')
     return redirect('home')
 
 @login_required
-def edit_post(request, post_id):
+def edit_post(request, post_id:int):
     post = get_object_or_404(Posts, pk=post_id)
     
     if request.method == "POST":
