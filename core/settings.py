@@ -18,7 +18,7 @@ SECRET_KEY = getenv("SECRET_KEY_DJANGO")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-AUTH_USER_MODEL = "social_network.MySocialUser"
+AUTH_USER_MODEL = "MysocialUser.MySocialUser"
 
 ALLOWED_HOSTS = []
 
@@ -33,7 +33,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_network',
-    'services'
+    'services',
+    'post',
+    'friend',
+    'comment',
+    'MysocialUser'
 ]
 
 MIDDLEWARE = [

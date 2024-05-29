@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import MySocialUserCreationForm, PostsForm, CommentForm
-from .models import MySocialUser, Posts, Friends
+from .models import MySocialUser, Friends
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -12,6 +11,10 @@ from dotenv import load_dotenv
 from services.email_service import EmailService
 from services.generate_password import GeneratePassword
 from django.template.loader import render_to_string
+from MysocialUser.form import MySocialUserCreationForm
+from post.form import PostsForm
+from comment.form import CommentForm
+from post.models import Posts
 
 load_dotenv("settings.py")
 

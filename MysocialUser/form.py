@@ -1,6 +1,6 @@
+from .models import MySocialUser
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import MySocialUser, Posts, Comment
 
 class MySocialUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=75, label="Nombre de Usuario", widget= forms.TextInput(attrs={"class":"form-control"}))
@@ -36,19 +36,3 @@ class MySocialUserCreationForm(UserCreationForm):
             user.save()
         return user
     
-class PostsForm(forms.ModelForm):
-    content_posts = forms.CharField(max_length=400, label="Crear nueva publicación",required=True, widget= forms.Textarea(attrs={"class":"form-control"}))
-    img = forms.ImageField(label="Seleccionar imagen", required=False,widget= forms.FileInput(attrs={"class":"form-control-file", }))
-    class Meta:
-        model = Posts
-        fields = ['content_posts', 'img']
-    
-class CommentForm(forms.ModelForm):
-    content = forms.CharField(max_length=200, label="Comentario", required=True, widget=forms.TextInput(attrs={'class':'form-control', "placeholder":"Agregar comentario"}))
-    class Meta:
-        model = Comment
-        fields = ['content']
-        
-        widgets = {
-            'posts': forms.HiddenInput()  # Campo oculto para almacenar el ID de la publicación
-        }
